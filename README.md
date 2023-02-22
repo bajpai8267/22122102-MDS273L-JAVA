@@ -16,7 +16,8 @@ Find the Mode Value
 From the user-given array.
 
 The program should have a minimum of 3 functions apart from the main function; each of the functions implements the Mean, Median, and Mode computation by accepting the array user has entered as a parameter and returning the value as a result. From the main method, you will display the result.
-=======
+=======================================================================================================================================================================
+
 Lab2 :
 You are supposed to create a menu-driven program that has the following menu options:
  Enter a name
@@ -33,4 +34,24 @@ Constraints:
  Provide necessary validations that the user enters only valid names that are not going to be repeated.
  Removing a name should not create empty space inside the array!
  Format your results properly!!
->>>>>>> 3b95ad8fb408c56c860ef6777fd29d5176572478
+=======================================================================================================================================================================
+Lab 4:
+Write a JAVA Menu driven program that does the following:
+1. We can ONLY have the below variables as global variables
+->Account Number
+->Account Holder Name
+->Account Balance
+
+2. We MUST have the below as functions
+->To initialize the customer
+->To deposit money
+->To withdraw money
+->To print the transactions
+->To print account summary
+
+3. Our menu will have the following operations once the customer is created
+->To deposit money
+->To withdraw money
+->To print the transactions
+->To print account summary
+
