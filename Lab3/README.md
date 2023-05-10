@@ -21,3 +21,4 @@ Enter the size of the array.
 Enter the elements of the array.
 Choose any of the operations from the menu.
 The result of the chosen operation will be displayed.
+![WhatsApp Image 2023-05-10 at 19 20 05](https://github.com/bajpai8267/22122102-MDS273L-JAVA/assets/86520419/22aca457-4b51-4155-a8b0-b1ab2ab57f26)
