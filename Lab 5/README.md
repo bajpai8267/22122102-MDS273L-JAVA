@@ -28,4 +28,5 @@ The program can display the details of all students in the array.
 Constraints
 The maximum number of students that can be stored in the array is 100.
 The program does not allow duplicate registration numbers or invalid inputs.
+![Your paragraph text](https://github.com/bajpai8267/22122102-MDS273L-JAVA/assets/86520419/363b79b9-432f-44ae-9d60-1bfdf6c733a4)
 
