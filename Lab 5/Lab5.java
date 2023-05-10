@@ -1,115 +1,79 @@
-import java.util.Scanner;
+class Student:
+    def __init__(self, reg_no, name, email, phone, _class, department):
+        self.reg_no = reg_no
+        self.name = name
+        self.email = email
+        self.phone = phone
+        self.class_ = _class
+        self.department = department
 
-class Student {
-    String regNo;
-    String name;
-    String email;
-    String phone;
-    String className;
-    String department;
+    def print_details(self):
+        print(f"Reg. No.: {self.reg_no}")
+        print(f"Name: {self.name}")
+        print(f"Email: {self.email}")
+        print(f"Phone: {self.phone}")
+        print(f"Class: {self.class_}")
+        print(f"Department: {self.department}")
 
-    public Student(String regNo, String name, String email, String phone, String className, String department) {
-        this.regNo = regNo;
-        this.name = name;
-        this.email = email;
-        this.phone = phone;
-        this.className = className;
-        this.department = department;
-    }
+class StudentManager:
+    def __init__(self):
+        self.students = []
 
-    public void printDetails() {
-        System.out.println("Reg. No.: " + regNo);
-        System.out.println("Name: " + name);
-        System.out.println("Email: " + email);
-        System.out.println("Phone: " + phone);
-        System.out.println("Class: " + className);
-        System.out.println("Department: " + department);
-    }
-}
+    def add_student(self):
+        reg_no = input("Enter Reg. No.: ")
+        name = input("Enter Name: ")
+        email = input("Enter Email: ")
+        phone = input("Enter Phone: ")
+        _class = input("Enter Class: ")
+        department = input("Enter Department: ")
 
-public class Lab5 {
-    
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        Student[] students = new Student[100];
-        int studentCount = 0;
+        student = Student(reg_no, name, email, phone, _class, department)
+        self.students.append(student)
+        print("Student added successfully.")
 
-        while (true) {
-            System.out.println("\nMenu:");
-            System.out.println("1. Add a student");
-            System.out.println("2. Search for a student by registration number");
-            System.out.println("3. Search for a student by name");
-            System.out.println("4. Display all students");
-            System.out.println("5. Quit");
+    def search_student(self):
+        search_query = input("Enter name or reg. no. of the student: ")
+        found_students = []
 
-            System.out.print("Enter your choice: ");
-            String choice = scanner.nextLine();
+        for student in self.students:
+            if search_query.lower() in student.name.lower() or search_query == student.reg_no:
+                found_students.append(student)
 
-            if (choice.equals("1")) {
-                System.out.print("Enter registration number: ");
-                String regNo = scanner.nextLine();
+        if not found_students:
+            print("No student found with the given search query.")
+        else:
+            print(f"Found {len(found_students)} student(s):")
+            for student in found_students:
+                student.print_details()
 
-                System.out.print("Enter name: ");
-                String name = scanner.nextLine();
+    def display_students(self):
+        if not self.students:
+            print("No student added yet.")
+        else:
+            print(f"Total students: {len(self.students)}")
+            for student in self.students:
+                student.print_details()
 
-                System.out.print("Enter email: ");
-                String email = scanner.nextLine();
+    def menu(self):
+        while True:
+            print("1. Add a student")
+            print("2. Search for a student")
+            print("3. Display all students")
+            print("4. Exit")
 
-                System.out.print("Enter phone: ");
-                String phone = scanner.nextLine();
+            choice = input("Enter your choice: ")
 
-                System.out.print("Enter class: ");
-                String className = scanner.nextLine();
+            if choice == "1":
+                self.add_student()
+            elif choice == "2":
+                self.search_student()
+            elif choice == "3":
+                self.display_students()
+            elif choice == "4":
+                break
+            else:
+                print("Invalid choice. Please try again.")
 
-                System.out.print("Enter department: ");
-                String department = scanner.nextLine();
-
-                Student student = new Student(regNo, name, email, phone, className, department);
-                students[studentCount] = student;
-                studentCount++;
-
-                System.out.println("Student added successfully!");
-            } else if (choice.equals("2")) {
-                System.out.print("Enter registration number: ");
-                String regNo = scanner.nextLine();
-
-                boolean found = false;
-                for (int i = 0; i < studentCount; i++) {
-                    if (students[i].regNo.equals(regNo)) {
-                        students[i].printDetails();
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (!found) {
-                    System.out.println("Student not found!");
-                }
-            } else if (choice.equals("3")) {
-                System.out.print("Enter name: ");
-                String name = scanner.nextLine();
-
-                boolean found = false;
-                for (int i = 0; i < studentCount; i++) {
-                    if (students[i].name.equals(name)) {
-                        students[i].printDetails();
-                        found = true;
-                    }
-                }
-
-                if (!found) {
-                    System.out.println("No more students with this name!");
-                }
-            } else if (choice.equals("4")) {
-                for (int i = 0; i < studentCount; i++) {
-                    students[i].printDetails();
-                }
-            } else if (choice.equals("5")) {
-                break;
-            } else {
-                System.out.println("Invalid choice!");
-            }
-        }
-        scanner.close();
-    }
-}
+if __name__ == "__main__":
+    student_manager = StudentManager()
+    student_manager.menu()
