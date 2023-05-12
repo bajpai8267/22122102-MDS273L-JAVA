@@ -1,77 +1,94 @@
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.PriorityQueue;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.*;
 
 public class Lab6 {
-
     public static void main(String[] args) {
-        String filePath = "text.txt";
-        String fileContent = getFileContent(filePath);
+        // read file and get its content as a string
+        String content = readFile("text.txt");
 
-        Map<Character, Integer> vowelsCount = countVowels(fileContent);
-        Map<Character, Integer> digitsCount = countDigits(fileContent);
-        Map<String, Integer> topFiveWords = getTopNWords(fileContent, 5, true);
-        Map<String, Integer> leastFiveWords = getTopNWords(fileContent, 5, false);
-        Map<Character, Integer> topFiveChars = getTopNChars(fileContent, 5, true);
-        Map<Character, Integer> leastFiveChars = getTopNChars(fileContent, 5, false);
+        // find and print vowels and their count
+        Map<Character, Integer> vowelsCount = findCharactersCount(content, "AEIOUaeiou");
+        System.out.println("Vowels count:");
+        System.out.println(vowelsCount);
 
-        // print or use the results here
+        // find and print digits and their count
+        Map<Character, Integer> digitsCount = findCharactersCount(content, "0123456789");
+        System.out.println("Digits count:");
+        System.out.println(digitsCount);
+
+        // find and print top five repeated words and their count
+        Map<String, Integer> wordsCount = findWordsCount(content);
+        System.out.println("Top five repeated words:");
+        printTopAndLeastWords(wordsCount, true);
+
+        // find and print least five repeated words and their count
+        System.out.println("Least five repeated words:");
+        printTopAndLeastWords(wordsCount, false);
+
+        // find and print top five repeated characters and their count
+        System.out.println("Top five repeated characters:");
+        printTopAndLeastCharacters(vowelsCount, digitsCount, true);
+
+        // find and print least five repeated characters and their count
+        System.out.println("Least five repeated characters:");
+        printTopAndLeastCharacters(vowelsCount, digitsCount, false);
     }
 
-    private static String getFileContent(String filePath) {
-        StringBuilder fileContent = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                fileContent.append(line).append("\n");
+    private static void printTopAndLeastCharacters(Map<Character, Integer> vowelsCount,
+            Map<Character, Integer> digitsCount, boolean b) {
+    }
+
+    // read file and return its content as a string
+    private static String readFile(String fileName) {
+        StringBuilder content = new StringBuilder();
+        try {
+            Scanner scanner = new Scanner(new File(fileName));
+            while (scanner.hasNextLine()) {
+                content.append(scanner.nextLine());
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found: " + fileName);
+            System.exit(1);
         }
-        return fileContent.toString();
+        return content.toString();
     }
 
-    private static Map<Character, Integer> countVowels(String fileContent) {
-        Map<Character, Integer> vowelsCount = new HashMap<>();
-        // implementation here
-        return vowelsCount;
-    }
-
-    private static Map<Character, Integer> countDigits(String fileContent) {
-        Map<Character, Integer> digitsCount = new HashMap<>();
-        // implementation here
-        return digitsCount;
-    }
-
-    private static Map<String, Integer> getTopNWords(String fileContent, int n, boolean isDescending) {
-        Map<String, Integer> wordCount = new HashMap<>();
-        // implementation here
-        return wordCount;
-    }
-
-    private static Map<Character, Integer> getTopNChars(String fileContent, int n, boolean isDescending) {
-        Map<Character, Integer> charCount = new HashMap<>();
-        // implementation here
-        return charCount;
-    }
-
-    private static PriorityQueue<Map.Entry<String, Integer>> getTopNEntries(Map<String, Integer> wordCount, int n, boolean isDescending) {
-        PriorityQueue<Map.Entry<String, Integer>> pq = new PriorityQueue<>((a, b) -> {
-            if (isDescending) {
-                return b.getValue() - a.getValue();
-            } else {
-                return a.getValue() - b.getValue();
-            }
-        });
-        for (Map.Entry<String, Integer> entry : wordCount.entrySet()) {
-            pq.offer(entry);
-            if (pq.size() > n) {
-                pq.poll();
+    // find characters in the given content and return their count
+    private static Map<Character, Integer> findCharactersCount(String content, String characters) {
+        Map<Character, Integer> count = new HashMap<>();
+        for (int i = 0; i < content.length(); i++) {
+            char c = content.charAt(i);
+            if (characters.indexOf(c) >= 0) {
+                count.put(c, count.getOrDefault(c, 0) + 1);
             }
         }
-        return pq;
+        return count;
+    }
+
+    // find words in the given content and return their count
+    private static Map<String, Integer> findWordsCount(String content) {
+        Map<String, Integer> count = new HashMap<>();
+        String[] words = content.split("\\s+");
+        for (String word : words) {
+            count.put(word, count.getOrDefault(word, 0) + 1);
+        }
+        return count;
+    }
+
+    // print top or least five words and their count
+    private static void printTopAndLeastWords(Map<String, Integer> wordsCount, boolean isTop) {
+        List<Map.Entry<String, Integer>> sortedWordsCount = new ArrayList<>(wordsCount.entrySet());
+        if (isTop) {
+            sortedWordsCount.sort(Map.Entry.<String, Integer>comparingByValue().reversed());
+        } else {
+            sortedWordsCount.sort(Map.Entry.<String, Integer>comparingByValue());
+        }
+        for (int i = 0; i < 5 && i < sortedWordsCount.size(); i++) {
+            Map.Entry<String, Integer> wordCount = sortedWordsCount.get(i);
+            System.out.println(wordCount.getKey() + ": " + wordCount.getValue());
+        }
     }
 }
+
+   
